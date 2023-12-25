@@ -12,3 +12,4 @@ go.work
 Makefile
 .kubepf
 dist/
+Dockerfile
