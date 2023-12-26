@@ -1,4 +1,4 @@
-# `kubepf`: Handy port-forwarding for k8s
+# `kubepf`: Handy port-forwarding tool for k8s
 
 
 ![MIT License](https://img.shields.io/badge/license-MIT-_red.svg)
@@ -18,7 +18,9 @@ go install -v github.com/alpkeskin/kubepf/cmd/kubepf@latest
 ```
 
 ## Configuration
-`kubepf` uses a config file named `.kubepf` in your **home directory**. You can create it manually or use `kubepf init` command to create it. Here is an example config file:
+`kubepf` uses a config file named `.kubepf` in your **home directory**. 
+
+You can create it manually or use `kubepf init` command to create it. Here is an example config file:
 
 ```yaml
 # .kubepf config file. Edit it.
