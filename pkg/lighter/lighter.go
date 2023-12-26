@@ -30,12 +30,30 @@ func Fire() {
 }
 
 func magic(cmd *cobra.Command, args []string) {
+	// Check args. if empty, print help
+	if len(args) == 0 {
+		cmd.Help()
+		return
+	}
+
+	// Get input
+	input := args[0]
+
 	// Create config instance
 	conf := config.New()
 
+	// Check input. If init, create example config file
+	if input == "init" {
+		err := conf.Init()
+		if err != nil {
+			panic(err)
+		}
+		return
+	}
+
 	// Check config file exists
 	if !conf.Exists() {
-		fmt.Println(color.RedString("Create .kubepf config file in your home directory!"))
+		fmt.Println(color.RedString("Create .kubepf config file in your home directory! \nYou can use 'kubepf init' command for create example config file."))
 		os.Exit(1)
 	}
 
@@ -44,14 +62,6 @@ func magic(cmd *cobra.Command, args []string) {
 	if err != nil {
 		panic(err)
 	}
-
-	// Check args. if empty, print help
-	if len(args) == 0 {
-		cmd.Help()
-		return
-	}
-
-	input := args[0]
 
 	// Check input. If list, print config file
 	if input == "list" {

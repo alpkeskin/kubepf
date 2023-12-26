@@ -60,6 +60,49 @@ func (c *Config) Parse() error {
 	return nil
 }
 
+func (c *Config) Init() error {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
+
+	configFilePath := filepath.Join(homeDir, ".kubepf")
+
+	if c.Exists() {
+		return fmt.Errorf(".kubepf config file already exists")
+	}
+
+	// Create dummy config file
+	cFile := Config{
+		Projects: []Project{
+			{
+				Name:      "default",
+				Namespace: "default",
+				Services: []Service{
+					{
+						Name:       "service",
+						Localport:  8080,
+						Targetport: 8080,
+					},
+				},
+			},
+		},
+	}
+
+	data, err := yaml.Marshal(cFile)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(configFilePath, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(color.GreenString(".kubepf config file created successfully in your home directory!\nNow you can edit this file and use kubepf commands."))
+	return nil
+}
+
 func (c *Config) Exists() bool {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
